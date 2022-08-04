@@ -3,7 +3,7 @@ package repositories
 import (
 	"Linky/ShorterService/interfaces"
 	"Linky/ShorterService/models"
-	"fmt"
+	"log"
 )
 
 type LinkRepositoryWithCircuitBreaker struct {
@@ -17,7 +17,7 @@ type LinkRepository struct {
 func (r *LinkRepository) AddShort(short models.Short) bool {
 	err := r.InsertShort(short)
 	if err != nil {
-		fmt.Println(err.Error())
+		log.Fatalln(err.Error())
 		return false
 	}
 

@@ -23,7 +23,7 @@ func Connect() *sql.DB {
 
 	db, err := sql.Open("postgres", psql)
 	if err != nil {
-		log.Fatal(err)
+		log.Fatalln(err)
 	}
 
 	return db
