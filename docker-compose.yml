@@ -1,0 +1,16 @@
+version: '3'
+services:
+
+  database:
+    build: Database/
+    restart: always
+
+  shorterservice:
+    build: ShorterService/
+    restart: always
+  
+  reverseproxy:
+    build: ReverseProxy/
+    restart: always
+    ports:
+      - 80:80
