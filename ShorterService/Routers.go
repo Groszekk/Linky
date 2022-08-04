@@ -1,6 +1,8 @@
 package main
 
 import (
+	"Linky/ShorterService/middlewares"
+	"net/http"
 	"sync"
 
 	"github.com/gorilla/mux"
@@ -21,7 +23,7 @@ func (router *router) Init() *mux.Router {
 	r := mux.NewRouter()
 	linkControlers := ServiceContainer().InjectController()
 
-	r.HandleFunc("/short", linkControlers.ShortLink).Methods("POST")
+	r.Handle("/short", middlewares.Validation(http.HandlerFunc(linkControlers.ShortLink))).Methods("POST")
 
 	return r
 }
