@@ -21,9 +21,9 @@ var (
 
 func (router *router) Init() *mux.Router {
 	r := mux.NewRouter()
-	linkControlers := ServiceContainer().InjectController()
+	linkControllers := ServiceContainer().InjectController()
 
-	r.Handle("/short", middlewares.Validation(http.HandlerFunc(linkControlers.ShortLink))).Methods("POST")
+	r.Handle("/short", middlewares.Validation(http.HandlerFunc(linkControllers.ShortLink))).Methods("POST")
 
 	return r
 }
