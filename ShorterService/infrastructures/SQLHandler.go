@@ -23,3 +23,19 @@ func (h *SQLHandler) InsertShort(short models.Short) error {
 
 	return err
 }
+
+func (h *SQLHandler) SelectLink(short string) (models.Short, error) {
+	row, err := h.Conn.Query("SELECT link FROM shorts WHERE short = $1", short)
+	if err != nil {
+		return models.Short{}, err.(*pq.Error)
+	}
+
+	defer row.Close()
+	var shortBuff models.Short
+
+	for row.Next() {
+		row.Scan(&shortBuff.Link)
+	}
+
+	return shortBuff, nil
+}

@@ -6,6 +6,8 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+
+	"github.com/gorilla/mux"
 )
 
 func (c *LinkController) ShortLink(w http.ResponseWriter, r *http.Request) {
@@ -24,11 +26,25 @@ func (c *LinkController) ShortLink(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	success, endpoint := c.Short(short)
+	endpoint, success := c.Short(short)
 	if !success {
 		w.WriteHeader(http.StatusBadRequest)
 		fmt.Fprint(w)
 		return
 	}
 	fmt.Fprintf(w, "http://localhost/s/%s", endpoint)
+}
+
+func (c *LinkController) ShortRedirect(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	short := vars["short"]
+
+	link, success := c.GetRedirectLink(short)
+	if !success {
+		w.WriteHeader(http.StatusNotFound)
+		fmt.Fprint(w)
+		return
+	}
+
+	http.Redirect(w, r, link, http.StatusFound)
 }

@@ -34,3 +34,12 @@ func (r *LinkRepository) AddShort(short models.Short) bool {
 
 	return true
 }
+
+func (r *LinkRepository) GetLink(shortEndpoint string) (string, bool) {
+	short, err := r.SelectLink(shortEndpoint)
+	if err != nil {
+		return *(new(string)), false
+	}
+
+	return short.Link, true
+}

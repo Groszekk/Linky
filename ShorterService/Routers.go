@@ -24,6 +24,7 @@ func (router *router) Init() *mux.Router {
 	linkControllers := ServiceContainer().InjectController()
 
 	r.Handle("/short", middlewares.Validation(http.HandlerFunc(linkControllers.ShortLink))).Methods("POST")
+	r.HandleFunc("/s/{short}", linkControllers.ShortRedirect).Methods("GET")
 
 	return r
 }
