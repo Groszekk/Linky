@@ -3,7 +3,10 @@ package repositories
 import (
 	"Linky/ShorterService/interfaces"
 	"Linky/ShorterService/models"
-	"log"
+	"fmt"
+
+	"github.com/lib/pq"
+	"github.com/omeid/pgerror"
 )
 
 type LinkRepositoryWithCircuitBreaker struct {
@@ -16,8 +19,16 @@ type LinkRepository struct {
 
 func (r *LinkRepository) AddShort(short models.Short) bool {
 	err := r.InsertShort(short)
-	if err != nil {
-		log.Fatalln(err.Error())
+
+	if err, success := err.(*pq.Error); success {
+		if e := pgerror.UniqueViolation(err); e != nil {
+			_err := r.InsertShort(short)
+			if _err != nil {
+				fmt.Println(_err.Error())
+				return false
+			}
+			return true
+		}
 		return false
 	}
 

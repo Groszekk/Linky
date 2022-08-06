@@ -4,6 +4,7 @@ import (
 	"Linky/ShorterService/interfaces"
 	"Linky/ShorterService/models"
 	"math/rand"
+	"time"
 )
 
 const letterBytes = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
@@ -26,6 +27,7 @@ func (s *LinkService) Short(short models.Short) (bool, string) {
 
 func RandString(length int) string {
 	b := make([]byte, length)
+	rand.Seed(time.Now().UTC().UnixNano())
 	for i := range b {
 		b[i] = letterBytes[rand.Int63()%int64(len(letterBytes))]
 	}

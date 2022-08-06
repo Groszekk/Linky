@@ -7,7 +7,7 @@ psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-E
     create table shorts (
         id serial primary key not null,
         link text not null,
-        short text not null
+        short text not null unique
     );
     
   COMMIT;

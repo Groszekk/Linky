@@ -24,8 +24,6 @@ func (c *LinkController) ShortLink(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	fmt.Println(short)
-
 	success, endpoint := c.Short(short)
 	if !success {
 		w.WriteHeader(http.StatusBadRequest)
