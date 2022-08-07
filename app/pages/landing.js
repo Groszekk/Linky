@@ -3,8 +3,11 @@ import React, {useState} from 'react'
 function Landing() {
     const [link, setLink] = useState("")
     const [shorter, setShorter] = useState("")
+    const [copyInfo, setCopyInfo] = useState("click to copy")
+    const [processing, setProcessing] = useState(false)
 
     function ShortLink() {
+        setProcessing(true)
         const headers = new Headers()
         headers.append('Content-Type', 'application/json')
 
@@ -21,12 +24,17 @@ function Landing() {
 
         fetch('http://localhost/api/short', requestOptions)
             .then(response => response.text())
-            .then(result => setShorter(result))
+            .then(result => {
+                setShorter(result)
+                setCopyInfo("click to copy")
+                setProcessing(false)
+            })
             .catch(error => console.log('error', error))
     }
 
     function Copy() {
         navigator.clipboard.writeText(shorter)
+        setCopyInfo("copied! ✅")
     }
     
     return (
@@ -44,12 +52,26 @@ function Landing() {
                             type="text" placeholder="https://google.com/"
                             value={link} onChange={(e) => setLink(e.target.value)}/>
 
-                        <button className="flex-shrink-0 bg-teal-500 hover:bg-teal-700 border-teal-500
+                        {processing ?
+                            <button type="button" class="inline-flex items-center py-2 px-3
+                            font-semibold text-sm shadow rounded-md text-white 
+                            bg-teal-500 hover:bg-teal-700 border-teal-500
+                            transition ease-in-out duration-150 cursor-not-allowed">
+                            <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                                Processing...
+                            </button>
+                            :
+                            <button className="flex-shrink-0 bg-teal-500 hover:bg-teal-700 border-teal-500
                             hover:border-teal-700 text-sm border-4 text-white py-1
                             px-2 rounded hover:scale-125 ease-out duration-300"
                             type="button" onClick={ShortLink}>
-                            Short! 📈
-                        </button>
+                                Short! 📈
+                            </button>
+                        }
+
                     </div>
                 </div>
 
@@ -65,7 +87,9 @@ function Landing() {
                             <p className="text-4xl cursor-pointer" onClick={Copy}>
                                 {shorter}
                             </p>
-                            <p className="text-gray-500">click to copy</p>
+                            <p className="text-gray-500 cursor-pointer" onClick={Copy}>
+                                {copyInfo}
+                            </p>
                         </>
                     :
                         null
