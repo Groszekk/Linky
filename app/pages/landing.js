@@ -23,9 +23,15 @@ function Landing() {
         }
 
         fetch('http://localhost/api/short', requestOptions)
-            .then(response => response.text())
-            .then(result => {
-                setShorter(result)
+            .then(res => {
+                if(res.status == 200)
+                    return res.text()
+
+                setProcessing(false)
+                throw new Error("wrong link validation");
+            })
+            .then(body => {
+                setShorter(body)
                 setCopyInfo("click to copy")
                 setProcessing(false)
             })
@@ -57,11 +63,11 @@ function Landing() {
                             font-semibold text-sm shadow rounded-md text-white 
                             bg-teal-500 hover:bg-teal-700 border-teal-500
                             transition ease-in-out duration-150 cursor-not-allowed">
-                            <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                            </svg>
-                                Processing...
+                                <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                                    Processing...
                             </button>
                             :
                             <button className="flex-shrink-0 bg-teal-500 hover:bg-teal-700 border-teal-500
@@ -84,7 +90,7 @@ function Landing() {
                     {
                         shorter.length > 0 ? 
                         <>
-                            <p className="text-4xl cursor-pointer" onClick={Copy}>
+                            <p className="text-2xl md:text-4xl cursor-pointer" onClick={Copy}>
                                 {shorter}
                             </p>
                             <p className="text-gray-500 cursor-pointer" onClick={Copy}>
