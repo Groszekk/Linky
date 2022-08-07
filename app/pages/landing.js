@@ -5,6 +5,7 @@ function Landing() {
     const [shorter, setShorter] = useState("")
     const [copyInfo, setCopyInfo] = useState("click to copy")
     const [processing, setProcessing] = useState(false)
+    const [shake, setShake] = useState(false)
 
     function ShortLink() {
         setProcessing(true)
@@ -28,6 +29,7 @@ function Landing() {
                     return res.text()
 
                 setProcessing(false)
+                ShakeInput()
                 throw new Error("wrong link validation");
             })
             .then(body => {
@@ -35,13 +37,26 @@ function Landing() {
                 setCopyInfo("click to copy")
                 setProcessing(false)
             })
-            .catch(error => console.log('error', error))
+            .catch(error => {
+                setProcessing(false)
+                ShakeInput()
+                console.log('error', error)
+            })
     }
 
     function Copy() {
         navigator.clipboard.writeText(shorter)
         setCopyInfo("copied! ✅")
     }
+
+    function ShakeInput() {
+        setShake(true)
+        setTimeout(() => setShake(false), 820)
+    }
+
+    const inputClass = "appearance-none bg-transparent border-none w-full \
+                        text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none "
+                        + (shake ? "shake-animation" : "")
     
     return (
         <div>
@@ -53,8 +68,7 @@ function Landing() {
 
                 <div className="shadow-xl">
                     <div className="flex items-center border-b border-teal-500 py-2">
-                        <input className="appearance-none bg-transparent border-none w-full
-                            text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
+                        <input className={inputClass}
                             type="text" placeholder="https://google.com/"
                             value={link} onChange={(e) => setLink(e.target.value)}/>
 
