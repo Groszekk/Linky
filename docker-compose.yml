@@ -1,6 +1,10 @@
 version: '3'
 services:
 
+  app:
+    build: app/
+    restart: always
+
   database:
     build: Database/
     restart: always
