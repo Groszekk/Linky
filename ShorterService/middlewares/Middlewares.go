@@ -31,6 +31,7 @@ func Validation(handler http.Handler) http.Handler {
 		validate := validator.New()
 		validate.RegisterValidation("min", MinimalValidation)
 		validate.RegisterValidation("max", MaximumValidation)
+		validate.RegisterValidation("captcha", Captcha)
 
 		err = validate.Struct(short)
 
@@ -47,6 +48,11 @@ func Validation(handler http.Handler) http.Handler {
 				case "max":
 					{
 						info = append(info, models.ValidateInfo{Field: err.Field(), Message: fmt.Sprintf("%s is too long", err.Field())})
+					}
+
+				case "captcha":
+					{
+						info = append(info, models.ValidateInfo{Field: err.Field(), Message: "invalid captcha"})
 					}
 				}
 			}

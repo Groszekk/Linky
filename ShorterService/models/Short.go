@@ -1,6 +1,7 @@
 package models
 
 type Short struct {
-	Link  string `json:"link" validate:"min=4,max=8000"`
-	Short string
+	Link    string `json:"link" validate:"min=4,max=8000"`
+	Short   string
+	Captcha string `json:"captcha" validate:"captcha"`
 }

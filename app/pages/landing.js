@@ -73,7 +73,7 @@ function Landing() {
                             value={link} onChange={(e) => setLink(e.target.value)}/>
 
                         {processing ?
-                            <button type="button" className="inline-flex items-center py-2 px-3
+                            <button type="button" className="flex-shrink-0 inline-flex items-center py-2 px-3
                             font-semibold text-sm shadow rounded-md text-white 
                             bg-teal-500 hover:bg-teal-700 border-teal-500
                             transition ease-in-out duration-150 cursor-not-allowed">
