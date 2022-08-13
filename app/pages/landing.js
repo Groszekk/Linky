@@ -1,4 +1,5 @@
 import React, {useState} from 'react'
+import ReCaptcha from 'react-google-recaptcha'
 
 function Landing() {
     const [link, setLink] = useState("")
@@ -6,6 +7,12 @@ function Landing() {
     const [copyInfo, setCopyInfo] = useState("click to copy")
     const [processing, setProcessing] = useState(false)
     const [shake, setShake] = useState(false)
+    const [captchaVal, setCaptchaVal] = useState("")
+
+    function onChaptchaChange(val) {
+		setCaptchaVal(val)
+		setSimpleValid(true)
+	}
 
     function ShortLink() {
         setProcessing(true)
@@ -91,8 +98,12 @@ function Landing() {
                                 Short! 📈
                             </button>
                         }
-
                     </div>
+                </div>
+
+                <div className="flex justify-center md:justify-end mt-8">
+                    <ReCaptcha size="normal" sitekey="6LedX3MhAAAAAPejhMko_KPlrIAik5FghRilSMD4"
+                        onChange={onChaptchaChange}/>
                 </div>
 
                 <div className="text-md text-center mt-8">
