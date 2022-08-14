@@ -11,7 +11,6 @@ function Landing() {
 
     function onChaptchaChange(val) {
 		setCaptchaVal(val)
-		setSimpleValid(true)
 	}
 
     function ShortLink() {
@@ -20,7 +19,8 @@ function Landing() {
         headers.append('Content-Type', 'application/json')
 
         const body = {
-            link: link
+            link: link,
+            captcha: captchaVal
         }
 
         const requestOptions = {
@@ -102,7 +102,7 @@ function Landing() {
                 </div>
 
                 <div className="flex justify-center md:justify-end mt-8">
-                    <ReCaptcha size="normal" sitekey="6LedX3MhAAAAAPejhMko_KPlrIAik5FghRilSMD4"
+                    <ReCaptcha size="normal" sitekey="6LfhC3QhAAAAAITXiD3rTRPwRkeRk7aU2Lyy34RI"
                         onChange={onChaptchaChange}/>
                 </div>
 
