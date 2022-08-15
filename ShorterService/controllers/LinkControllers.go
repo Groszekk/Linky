@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"Linky/ShorterService/interfaces"
 	"Linky/ShorterService/models"
 	"encoding/json"
 	"fmt"
@@ -9,6 +10,10 @@ import (
 
 	"github.com/gorilla/mux"
 )
+
+type LinkController struct {
+	interfaces.ILinkService
+}
 
 func (c *LinkController) ShortLink(w http.ResponseWriter, r *http.Request) {
 	body, err := ioutil.ReadAll(r.Body)

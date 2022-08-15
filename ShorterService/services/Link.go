@@ -7,7 +7,7 @@ import (
 	"time"
 )
 
-const letterBytes = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
+const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
 
 type LinkService struct {
 	interfaces.ILinkRepository
@@ -19,7 +19,7 @@ func (s *LinkService) Short(short models.Short) (string, bool) {
 
 	success := s.AddShort(short)
 	if !success {
-		return *new(string), false
+		return *(new(string)), false
 	}
 
 	return randStr, true
@@ -39,7 +39,7 @@ func RandString(length int) string {
 	b := make([]byte, length)
 	rand.Seed(time.Now().UTC().UnixNano())
 	for i := range b {
-		b[i] = letterBytes[rand.Int63()%int64(len(letterBytes))]
+		b[i] = charset[rand.Int63()%int64(len(charset))]
 	}
 
 	return string(b)

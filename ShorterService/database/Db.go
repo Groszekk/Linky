@@ -1,4 +1,4 @@
-package scripts
+package database
 
 import (
 	"database/sql"
@@ -17,7 +17,7 @@ var (
 	database = os.Getenv("DB-NAME")
 )
 
-func Connect() *sql.DB {
+func InitConnection() *sql.DB {
 	psql := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",
 		host, port, user, password, database)
 

@@ -2,9 +2,9 @@ package main
 
 import (
 	"Linky/ShorterService/controllers"
+	"Linky/ShorterService/database"
 	"Linky/ShorterService/infrastructures"
 	"Linky/ShorterService/repositories"
-	"Linky/ShorterService/scripts"
 	"Linky/ShorterService/services"
 	"sync"
 )
@@ -21,7 +21,7 @@ var (
 )
 
 func (k *kernel) InjectController() controllers.LinkController {
-	db := scripts.Connect()
+	db := database.InitConnection()
 	sqlHandler := &infrastructures.SQLHandler{}
 	sqlHandler.Conn = db
 
